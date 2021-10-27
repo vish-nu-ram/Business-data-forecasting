@@ -1,3 +1,4 @@
 ## Test file
 
-df <- read.csv("eurusd_hour.csv")
+df <- read.csv("Business-data-forecasting/eurusd_hour.csv")
+View(df)
