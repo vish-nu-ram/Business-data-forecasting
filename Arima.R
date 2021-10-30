@@ -1,3 +1,5 @@
+######## ARIMA Model try 1
+
 df <- read.csv("Business-data-forecasting/eurusd_hour.csv")
 View(df)
 head(df)
