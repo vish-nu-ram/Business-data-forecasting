@@ -8,7 +8,7 @@ head(df6weeks)
 tail(df6weeks)
 
 df30weeks<- head(df80weeks, n = 24*7*30)
-ts30weeksBO <- ts(data = df30weeks$BO)
+ts30weeksBO <- ts(data = df30weeks$BO,frequency = 24)
 plot.ts(ts30weeksBO)
 
 split_ts <- ts_split(ts30weeksBO, sample.out = 24*7*2)
