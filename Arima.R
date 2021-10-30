@@ -39,4 +39,44 @@ plot.ts(boAutoArima$residuals)
 myBoForecast <- forecast(boAutoArima, h = 240)
 plot(myBoForecast, xlim = c(2500,2750))
 
+# Only picking last 2 years of data 
+df2Years <- tail(df, n = 17520)
+head(df2Years)
+tail(df2Years)
 
+ts2yearsBO <- ts(data = df2Years$BO,  freq= 24)
+plot.ts(ts2yearsBO)
+
+
+## Looking at BCh as it should not have any trend, 
+#hopefully no seasonality as it is the change in value every hour
+
+ts2yearsCh  <- ts(data = df2Years$BCh, freq = 24)
+plot.ts(ts2yearsCh)
+
+acf(ts2yearsCh)
+pacf(ts2yearsCh)
+adf.test(ts2yearsCh)
+
+bchAutoArima <- auto.arima(ts2yearsCh,ic="aic",trace = TRUE) 
+
+myBchForecast <- forecast(bchAutoArima, h = 240)
+plot(myBchForecast, xlim = c(730,735))
+
+###last 3 weeks data only
+
+df3weeks <- tail(df, n = 504)
+head(df3weeks)
+tail(df3weeks)
+
+ts3weeksBO <- ts(data = df3weeks$BO,  freq= 24)
+plot.ts(ts3weeksBO)
+
+acf(ts3weeksBO)
+pacf(ts3weeksBO)
+adf.test(ts3weeksBO)
+
+boAutoArima <- auto.arima(ts3weeksBO,ic="aic",trace = TRUE) 
+
+myBoForecast <- forecast(boAutoArima, h = 240)
+plot(myBoForecast)
