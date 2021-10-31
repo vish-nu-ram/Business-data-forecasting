@@ -38,6 +38,8 @@ plot(exp_pred_MAA,  ylab = "Bid Price at beginning of hour", xlab = "Time",
      bty = "l", xaxt = "n", main = "Holt-Winter's Exponential Smoothing\nmultiplicative error, additive trend, and\n additive seasonality", flty = )
 lines(exp_pred_MAA$fitted, lwd = 1, col = "blue")
 lines(testing)
+accuracy(exp_pred_MAA)
+accuracy(exp_pred_MAA, testing)
 
 # run Holt-Winters exponential smoothing
 # use ets() with option model = "MAM" to fit Holt-Winter's exponential smoothing
@@ -50,6 +52,8 @@ plot(exp_pred_MAM,  ylab = "Bid Price at beginning of hour", xlab = "Time",
      bty = "l", xaxt = "n", main = "Holt-Winter's Exponential Smoothing\nmultiplicative error, additive trend, and\n multiplicative seasonality")
 lines(exp_pred_MAM$fitted, lwd = 1, col = "blue")
 lines(testing)
+accuracy(exp_pred_MAM)
+accuracy(exp_pred_MAM, testing)
 
 # run Holt-Winters exponential smoothing
 # use ets() with option model = "MMM" to fit Holt-Winter's exponential smoothing
@@ -62,6 +66,8 @@ plot(exp_pred_MMM,  ylab = "Bid Price at beginning of hour", xlab = "Time",
      bty = "l", xaxt = "n", main = "Holt-Winter's Exponential Smoothing\nmultiplicative error, multiplicative trend, and\n multiplicative seasonality", flty = )
 lines(exp_pred_MMM$fitted, lwd = 1, col = "blue")
 lines(testing)
+accuracy(exp_pred_MMM)
+accuracy(exp_pred_MMM, testing)
 
 # run Holt-Winters exponential smoothing
 # use ets() with option model = "AAA" to fit Holt-Winter's exponential smoothing
@@ -74,6 +80,8 @@ plot(exp_pred_AAA,  ylab = "Bid Price at beginning of hour", xlab = "Time",
      bty = "l", xaxt = "n", main = "Holt-Winter's Exponential Smoothing\nadditive error, additive trend, and\n additive seasonality", flty = )
 lines(exp_pred_AAA$fitted, lwd = 1, col = "blue")
 lines(testing)
+accuracy(exp_pred_AAA)
+accuracy(exp_pred_AAA, testing)
 
 
 
