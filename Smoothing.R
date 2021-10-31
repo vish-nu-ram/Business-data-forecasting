@@ -35,7 +35,7 @@ exp_model_MAA <- ets(training, model = "MAA")
 exp_pred_MAA <- forecast(exp_model_MAA, h=366, level = 0)
 # plot the series
 plot(exp_pred_MAA,  ylab = "Bid Price at beginning of hour", xlab = "Time",
-     bty = "l", xaxt = "n", main = "", flty = )
+     bty = "l", xaxt = "n", main = "Holt-Winter's Exponential Smoothing\nmultiplicative error, additive trend, and\n additive seasonality", flty = )
 lines(exp_pred_MAA$fitted, lwd = 1, col = "blue")
 lines(testing)
 
@@ -47,7 +47,7 @@ exp_model_MAM <- ets(training, model = "MAM")
 exp_pred_MAM <- forecast(exp_model_MAM, h=366, level = 0)
 # plot the series
 plot(exp_pred_MAM,  ylab = "Bid Price at beginning of hour", xlab = "Time",
-     bty = "l", xaxt = "n", main = "", flty = )
+     bty = "l", xaxt = "n", main = "Holt-Winter's Exponential Smoothing\nmultiplicative error, additive trend, and\n multiplicative seasonality")
 lines(exp_pred_MAM$fitted, lwd = 1, col = "blue")
 lines(testing)
 
@@ -59,7 +59,7 @@ exp_model_MMM <- ets(training, model = "MMM")
 exp_pred_MMM <- forecast(exp_model_MMM, h=366, level = 0)
 # plot the series
 plot(exp_pred_MMM,  ylab = "Bid Price at beginning of hour", xlab = "Time",
-     bty = "l", xaxt = "n", main = "", flty = )
+     bty = "l", xaxt = "n", main = "Holt-Winter's Exponential Smoothing\nmultiplicative error, multiplicative trend, and\n multiplicative seasonality", flty = )
 lines(exp_pred_MMM$fitted, lwd = 1, col = "blue")
 lines(testing)
 
@@ -71,7 +71,7 @@ exp_model_AAA <- ets(training, model = "AAA")
 exp_pred_AAA <- forecast(exp_model_AAA, h=366, level = 0)
 # plot the series
 plot(exp_pred_AAA,  ylab = "Bid Price at beginning of hour", xlab = "Time",
-     bty = "l", xaxt = "n", main = "", flty = )
+     bty = "l", xaxt = "n", main = "Holt-Winter's Exponential Smoothing\nadditive error, additive trend, and\n additive seasonality", flty = )
 lines(exp_pred_AAA$fitted, lwd = 1, col = "blue")
 lines(testing)
 
