@@ -30,11 +30,50 @@ library(forecast)
 # run Holt-Winters exponential smoothing
 # use ets() with option model = "MAA" to fit Holt-Winter's exponential smoothing
 # with multiplicative error, additive trend, and additive seasonality.
-exp_model <- ets(training, model = "MAA")
+exp_model_MAA <- ets(training, model = "MAA")
 # create predictions
-exp_pred <- forecast(exp_model, level = 0)
+exp_pred_MAA <- forecast(exp_model_MAA, h=366, level = 0)
 # plot the series
-plot(exp_pred,  ylab = "Bid Price at beginning of hour", xlab = "Time",
+plot(exp_pred_MAA,  ylab = "Bid Price at beginning of hour", xlab = "Time",
      bty = "l", xaxt = "n", main = "", flty = )
-lines(exp_pred$fitted, lwd = 1, col = "blue")
-lines(testing[4704:5040])
+lines(exp_pred_MAA$fitted, lwd = 1, col = "blue")
+lines(testing)
+
+# run Holt-Winters exponential smoothing
+# use ets() with option model = "MAM" to fit Holt-Winter's exponential smoothing
+# with multiplicative error, additive trend, and multiplicative seasonality.
+exp_model_MAM <- ets(training, model = "MAM")
+# create predictions
+exp_pred_MAM <- forecast(exp_model_MAM, h=366, level = 0)
+# plot the series
+plot(exp_pred_MAM,  ylab = "Bid Price at beginning of hour", xlab = "Time",
+     bty = "l", xaxt = "n", main = "", flty = )
+lines(exp_pred_MAM$fitted, lwd = 1, col = "blue")
+lines(testing)
+
+# run Holt-Winters exponential smoothing
+# use ets() with option model = "MMM" to fit Holt-Winter's exponential smoothing
+# with multiplicative error, additive trend, and multiplicative seasonality.
+exp_model_MMM <- ets(training, model = "MMM")
+# create predictions
+exp_pred_MMM <- forecast(exp_model_MMM, h=366, level = 0)
+# plot the series
+plot(exp_pred_MMM,  ylab = "Bid Price at beginning of hour", xlab = "Time",
+     bty = "l", xaxt = "n", main = "", flty = )
+lines(exp_pred_MMM$fitted, lwd = 1, col = "blue")
+lines(testing)
+
+# run Holt-Winters exponential smoothing
+# use ets() with option model = "AAA" to fit Holt-Winter's exponential smoothing
+# with multiplicative error, additive trend, and multiplicative seasonality.
+exp_model_AAA <- ets(training, model = "AAA")
+# create predictions
+exp_pred_AAA <- forecast(exp_model_AAA, h=366, level = 0)
+# plot the series
+plot(exp_pred_AAA,  ylab = "Bid Price at beginning of hour", xlab = "Time",
+     bty = "l", xaxt = "n", main = "", flty = )
+lines(exp_pred_AAA$fitted, lwd = 1, col = "blue")
+lines(testing)
+
+
+
