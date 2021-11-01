@@ -63,7 +63,7 @@ exp_model_MMM <- ets(training, model = "MMM")
 exp_pred_MMM <- forecast(exp_model_MMM, h=366, level = 0)
 # plot the series
 plot(exp_pred_MMM,  ylab = "Bid Price at beginning of hour", xlab = "Time",
-     bty = "l", xaxt = "n", main = "Holt-Winter's Exponential Smoothing\nmultiplicative error, multiplicative trend, and\n multiplicative seasonality", flty = )
+     bty = "l", xaxt = "n", main = "multiplicative error, multiplicative trend, and\n multiplicative seasonality", flty = )
 lines(exp_pred_MMM$fitted, lwd = 1, col = "blue")
 lines(testing)
 accuracy(exp_pred_MMM)
@@ -83,5 +83,18 @@ lines(testing)
 accuracy(exp_pred_AAA)
 accuracy(exp_pred_AAA, testing)
 
+## comparison plot MAM & MMM models
+plot(exp_pred_MAM,  ylab = "Bid Price at beginning of hour", xlab = "Time",
+     bty = "l", xaxt = "n", main = "Holt-Winter's Exponential Smoothing\nadditive error, additive trend, and\n additive seasonality", flty = )
+plot(exp_pred_MMM,  ylab = "Bid Price at beginning of hour", xlab = "Time",
+     bty = "l", xaxt = "n", main = "Holt-Winter's Exponential Smoothing\nadditive error, additive trend, and\n additive seasonality", flty = )
 
+autoplot(exp_pred_MAM)
+lines(exp_pred_MAM$fitted, lwd = 1, col = "blue")
+lines(testing)
+
+
+lines(exp_pred_MAM$fitted, lwd = 1, col = "blue")
+lines(exp_pred_MMM$fitted, lwd = 1, col = "red")
+lines(testing)
 
