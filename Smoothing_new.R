@@ -35,7 +35,7 @@ class(valid_data)
 plot(train_data)
 plot(valid_data)
 
-dcomp <- stl(train_data, s.window = "periodic")
+dcomp <- stl(daywise_ts, s.window = "periodic")
 
 plot(dcomp)
 ###### Smoothing ######
