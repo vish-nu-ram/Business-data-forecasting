@@ -28,8 +28,8 @@ daywise_ts = ts(round(daywise1$`mean(BO)`,4))
 View(daywise_ts)
 
 #partioning the data
-train_data = ts(head(daywise_ts, n=250))
-valid_data = ts(tail(daywise_ts, n=100),start = 250, end = 350)
+train_data = ts(head(daywise_ts, n=300))
+valid_data = ts(tail(daywise_ts, n=50),start = 300, end = 350)
 
 class(valid_data)
 plot(train_data)
@@ -45,12 +45,13 @@ adf.test(training_d1)
 plot.ts(training_d1)
 
 pacf(training_d1)
-# We can use p as 1 
+# We can use p as 1 ? 5?
 
 acf(training_d1)
-# we can use q as 0?
+# we can use q as 1? 5? 9?
 
-ts_Mod1 <- arima(train_data, order = c(1,1,3))
+#(5,1,1)
+ts_Mod1 <- arima(train_data, order = c(5,1,1))
 print(ts_Mod1)
 
 #valForcast <- forecast()
@@ -60,6 +61,19 @@ ts_For1 <- forecast(ts_Mod1, h= 100)
 plot(ts_For1)
 lines(ts_For1$fitted,, lwd = 1, col = "blue")
 lines(valid_data)
+
+#(5,1,9)
+ts_Mod2 <- arima(train_data, order = c(5,1,9))
+print(ts_Mod2)
+
+#valForcast <- forecast()
+length(valid_data)
+
+ts_For2 <- forecast(ts_Mod2, h= 100)
+plot(ts_Mod2)
+lines(ts_For2$fitted,, lwd = 1, col = "blue")
+lines(valid_data)
+
 
 accuracy(ts_For1, valid_data)
 # Even with Auto arima we get 1,1,0 as the hyperparameter. 
