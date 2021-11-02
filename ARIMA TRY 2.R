@@ -11,7 +11,7 @@ df30weeks<- head(df80weeks, n = 24*7*30)
 ts30weeksBO <- ts(data = df30weeks$BO, frequency = 24)
 plot.ts(ts30weeksBO)
 
-#Splittinf it to train and test
+#Splitting it to train and test
 library(TSstudio)
 split_ts <- ts_split(ts30weeksBO, sample.out = 24*7*2)
 training <- split_ts$train
