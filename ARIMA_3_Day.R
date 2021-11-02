@@ -50,7 +50,7 @@ pacf(training_d1)
 acf(training_d1)
 # we can use q as 0?
 
-ts_Mod1 <- arima(train_data, order = c(1,1,0))
+ts_Mod1 <- arima(train_data, order = c(1,1,3))
 print(ts_Mod1)
 
 #valForcast <- forecast()
@@ -60,12 +60,6 @@ ts_For1 <- forecast(ts_Mod1, h= 100)
 plot(ts_For1)
 lines(ts_For1$fitted,, lwd = 1, col = "blue")
 lines(valid_data)
-
-
-
-ts_Mod2 <- auto.arima(train_data, trace = TRUE)
-
-autoplot(forecast(ts_Mod2, h= 20))
 
 accuracy(ts_For1, valid_data)
 # Even with Auto arima we get 1,1,0 as the hyperparameter. 
