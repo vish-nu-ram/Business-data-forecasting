@@ -49,7 +49,7 @@ exp_model_MAN <- ets(train_data, model = "MAN")
 exp_pred_MAN <- forecast(exp_model_MAN, h=length(valid_data), level = 0)
 # plot the series
 plot(exp_pred_MAN,  ylab = "Mean Bid Price at the beginning\n of each hour per day", xlab = "Time",
-     bty = "l", xaxt = "n", main = "multiplicative error, additive trend, and\n no seasonality", flty = )
+     bty = "l", xaxt = "n", main = "multiplicative error, additive trend, and\n no seasonality")
 lines(exp_pred_MAN$fitted, lwd = 1, col = "blue")
 lines(valid_data)
 accuracy(exp_pred_MAN)
@@ -62,7 +62,7 @@ exp_model_MMN <- ets(train_data, model = "MMN")
 exp_pred_MMN <- forecast(exp_model_MMN, h=100, level = 0)
 # plot the series
 plot(exp_pred_MMN,  ylab = "Mean Bid Price at the beginning\n of each hour per day", xlab = "Time",
-     bty = "l", xaxt = "n", main = "multiplicative error, multiplicative trend, and\n no seasonality", flty = )
+     bty = "l", xaxt = "n", main = "multiplicative error, multiplicative trend, and\n no seasonality")
 lines(exp_pred_MMN$fitted, lwd = 1, col = "blue")
 lines(valid_data)
 accuracy(exp_pred_MMN)
@@ -75,12 +75,22 @@ exp_model_AAN <- ets(train_data, model = "AAN")
 exp_pred_AAN <- forecast(exp_model_AAN, h=100, level = 0)
 # plot the series
 plot(exp_pred_AAN,  ylab = "Mean Bid Price at the beginning\n of each hour per day", xlab = "Time",
-     bty = "l", xaxt = "n", main = "Holt-Winter's Exponential Smoothing\nadditive error, additive trend, and\n no seasonality", flty = )
+     bty = "l", xaxt = "n", main = "Holt-Winter's Exponential Smoothing\nadditive error, additive trend, and\n no seasonality")
 lines(exp_pred_AAN$fitted, lwd = 1, col = "blue")
 lines(valid_data)
 accuracy(exp_pred_AAN)
 accuracy(exp_pred_AAN, valid_data)
 
-
+# use ets() with option model = "MAN" to fit Holt-Winter's exponential smoothing
+exp_model_ZZZ <- ets(train_data, model = "ZZZ")
+# create predictions
+exp_pred_ZZZ <- forecast(exp_model_ZZZ, h=length(valid_data), level = 0)
+# plot the series
+plot(exp_pred_ZZZ,  ylab = "Mean Bid Price at the beginning\n of each hour per day", xlab = "Time",
+     bty = "l", xaxt = "n", main = "automatically selected")
+lines(exp_pred_ZZZ$fitted, lwd = 1, col = "blue")
+lines(valid_data)
+accuracy(exp_pred_ZZZ)
+accuracy(exp_pred_ZZZ, valid_data)
 
 
