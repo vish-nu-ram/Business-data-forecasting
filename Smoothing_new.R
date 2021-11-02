@@ -29,7 +29,7 @@ View(daywise_ts)
 
 #partioning the data
 train_data = ts(head(daywise_ts, n=250))
-valid_data = ts(tail(daywise_ts, n=100),start = 250, end = 350)
+valid_data = ts(tail(daywise_ts, n=100), start = 250, end = 350)
 
 class(valid_data)
 plot(train_data)
@@ -46,7 +46,7 @@ plot(dcomp)
 # use ets() with option model = "MAN" to fit Holt-Winter's exponential smoothing
 exp_model_MAN <- ets(train_data, model = "MAN")
 # create predictions
-exp_pred_MAN <- forecast(exp_model_MAA, h=length(valid_data), level = 0)
+exp_pred_MAN <- forecast(exp_model_MAN, h=length(valid_data), level = 0)
 # plot the series
 plot(exp_pred_MAN,  ylab = "Mean Bid Price at the beginning\n of each hour per day", xlab = "Time",
      bty = "l", xaxt = "n", main = "multiplicative error, additive trend, and\n no seasonality", flty = )
