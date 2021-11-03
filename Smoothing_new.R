@@ -30,11 +30,11 @@ View(daywise_ts)
 
 #partioning the data
 train_data = ts(head(daywise_ts, n=300), frequency = 7)
-valid_data = ts(tail(daywise_ts, n=50), start = 305/7, end = 350/7, frequency = 7)
+valid_data = ts(tail(daywise_ts, n=50), start = 300/7+1, end = 350/7, frequency = 7)
 
 class(valid_data)
 plot(train_data)
-plot(valid_data)
+lines(valid_data)
 
 dcomp <- stl(daywise_ts, s.window = "periodic")
 
