@@ -40,7 +40,7 @@ dcomp <- stl(daywise_ts, s.window = "periodic")
 plot(dcomp)
 
 adf.test(train_data)
-training_d1 <- diff(train_data, differences = 1)
+ training_d1 <- diff(train_data, differences = 1)
 adf.test(training_d1)
 plot(training_d1)
 
@@ -56,7 +56,7 @@ acf(training_d1)
 # we can use q as 0? 1? 9? 5? 
 
 #(5,1,1)
-ts_Mod1 <- arima(train_data, order = c(8,1,8))
+ts_Mod1 <- arima(train_data, order = c(5,1,1))
 print(ts_Mod1)
 
 #valForcast <- forecast()
@@ -81,6 +81,17 @@ plot(ts_For2)
 lines(ts_For2$fitted,, lwd = 1, col = "blue")
 lines(valid_data)
 
-
+ts_Mod4<- auto.arima(train_data, trace = TRUE)
+accuracy(ts_For1, valid_data)
+accuracy(ts_For2, valid_data)
+accuracy(ts_For, valid_data)
 accuracy(ts_For1, valid_data)
 # Even with Auto arima we get 1,1,0 as the hyperparameter. 
+
+
+#predicting for 7 days with arima 1,1,0
+ts_ModFinal <- arima(daywise_ts, order = c(1,1,0))
+ts_ForFinal <- forecast(ts_ModFinal,h=7)
+plot(ts_ForFinal, xlim = c(40,53), ylim = c(1.1,1.125))
+lines(ts_ForFinal$fitted,, lwd = 1, col = "blue")
+lines(valid_data)
