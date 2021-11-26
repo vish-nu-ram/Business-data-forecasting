@@ -1,41 +1,75 @@
-####### original: Train_Test_Split.R #######
-### splitting ts to train and test 
-
+library(zoo)
 library(tseries)
+# install.packages("TSstudio")
 library(TSstudio)
+library(forecast)
+library(dplyr)
+library(ggplot2)
 
-df <- read.csv("Business-data-forecasting/eurusd_hour.csv")
-df80weeks <- tail(df, n = 24*7*50)
-head(df80weeks)
-tail(df80weeks)
+df <- read.csv(".../eurusd_hour.csv")
+df <- eurusd_hour
+View(df)
+length(df)
+range(df$BO)
 
-df30weeks<- head(df80weeks, n = 24*7*30)
-ts30weeksBO <- ts(data = df30weeks$BO,frequency = 24)
-plot.ts(ts30weeksBO)
+#the data frame
+df50weeks <- tail(df, n = 24*7*50)
+plot(df50weeks)
 
-split_ts <- ts_split(ts30weeksBO, sample.out = 24*7*2)
-training <- split_ts$train
-testing <- split_ts$test
+View(df50weeks)
+head(df50weeks)
+tail(df50weeks)
 
-length(training)
-length(testing)
+#aggregating the data so that we have single value for a single day
+daywise <- df50weeks %>% group_by(Date) %>% summarise(mean(BO))
+#daywise_ts = ts(daywise)
+#plot(daywise_ts)
+
+daywise1 <- daywise[1:80,] #select the part we want to analyse
+daywise_ts2 <- daywise1[,-1]
+View(daywise_ts2)
+
+plot <- plot.ts(daywise_ts2)
+
+#daywise$Date <- as.Date(daywise$Date)
+
+daywise_ts <- ts(daywise_ts2$`mean(BO)`, start = 1, frequency = 7)
+plot(daywise_ts)
+daywise_ts
+
+#partioning the data
+train_data <- head(daywise_ts, n=60,start = 0, end = 60)
+valid_data <- tail(daywise_ts, n=20, start = 60, end = 80)
+
+plot(train_data)
+plot(valid_data)
+
+#run ts on train and valid
+train_data_ts = ts(train_data, start = 0, frequency = 7)
+valid_data_ts = ts(valid_data, start = 60, frequency = 7)
+
+plot(train_data_ts)
+plot(valid_data_ts)
+
+length(train_data_ts) #60
+length(valid_data_ts) #20
+
+training <- train_data_ts
+testing <- valid_data
 
 ###### Smoothing ######
 #more sophisticated version of exponential smoothing, which can capture trend and/or seasonality
 #we do have trend and seasonality in our time series, which means we use Holt–Winter’s Exponential Smoothing
-
-library(forecast)
-
 
 # run Holt-Winters exponential smoothing
 # use ets() with option model = "MAA" to fit Holt-Winter's exponential smoothing
 # with multiplicative error, additive trend, and additive seasonality.
 exp_model_MAA <- ets(training, model = "MAA")
 # create predictions
-exp_pred_MAA <- forecast(exp_model_MAA, h=366, level = 0)
+exp_pred_MAA <- forecast(exp_model_MAA, h=20, level = 0)
 # plot the series
-plot(exp_pred_MAA,  ylab = "Bid Price at beginning of hour", xlab = "Time",
-     bty = "l", xaxt = "n", main = "Holt-Winter's Exponential Smoothing\nmultiplicative error, additive trend, and\n additive seasonality", flty = )
+plot(exp_pred_MAA,  ylab = "Daily average Bid Open Price", xlab = "Time",
+     bty = "l", xaxt = "n", main = "Holt-Winter's Exponential Smoothing\nmultiplicative error, additive trend, and\n additive seasonality")
 lines(exp_pred_MAA$fitted, lwd = 1, col = "blue")
 lines(testing)
 accuracy(exp_pred_MAA)
@@ -46,9 +80,9 @@ accuracy(exp_pred_MAA, testing)
 # with multiplicative error, additive trend, and multiplicative seasonality.
 exp_model_MAM <- ets(training, model = "MAM")
 # create predictions
-exp_pred_MAM <- forecast(exp_model_MAM, h=366, level = 0)
+exp_pred_MAM <- forecast(exp_model_MAM, h=20, level = 0)
 # plot the series
-plot(exp_pred_MAM,  ylab = "Bid Price at beginning of hour", xlab = "Time",
+plot(exp_pred_MAM,  ylab = "Daily average Bid Open Price", xlab = "Time",
      bty = "l", xaxt = "n", main = "Holt-Winter's Exponential Smoothing\nmultiplicative error, additive trend, and\n multiplicative seasonality")
 lines(exp_pred_MAM$fitted, lwd = 1, col = "blue")
 lines(testing)
@@ -60,7 +94,7 @@ accuracy(exp_pred_MAM, testing)
 # with multiplicative error, additive trend, and multiplicative seasonality.
 exp_model_MMM <- ets(training, model = "MMM")
 # create predictions
-exp_pred_MMM <- forecast(exp_model_MMM, h=366, level = 0)
+exp_pred_MMM <- forecast(exp_model_MMM, h=20, level = 0)
 # plot the series
 plot(exp_pred_MMM,  ylab = "Bid Price at beginning of hour", xlab = "Time",
      bty = "l", xaxt = "n", main = "multiplicative error, multiplicative trend, and\n multiplicative seasonality", flty = )
@@ -74,7 +108,7 @@ accuracy(exp_pred_MMM, testing)
 # with multiplicative error, additive trend, and multiplicative seasonality.
 exp_model_AAA <- ets(training, model = "AAA")
 # create predictions
-exp_pred_AAA <- forecast(exp_model_AAA, h=366, level = 0)
+exp_pred_AAA <- forecast(exp_model_AAA, h=20, level = 0)
 # plot the series
 plot(exp_pred_AAA,  ylab = "Bid Price at beginning of hour", xlab = "Time",
      bty = "l", xaxt = "n", main = "Holt-Winter's Exponential Smoothing\nadditive error, additive trend, and\n additive seasonality", flty = )
