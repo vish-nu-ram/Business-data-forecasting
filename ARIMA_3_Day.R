@@ -47,15 +47,15 @@ plot(training_d1)
 dcomp <- stl(training_d1)
 plot(dcomp)
 
-# We can use d as 1
+
 
 pacf(training_d1)
 pacf(train_data)
-# We can use p as 1 ? 5? 8?
+
 
 acf(training_d1)
 acf(train_data)
-# we can use q as 0? 1? 9? 5? 
+
 
 #(5,1,1)
 ts_Mod1 <- arima(train_data, order = c(5,1,1))
