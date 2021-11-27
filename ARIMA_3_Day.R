@@ -9,7 +9,7 @@ View(df)
 length(df)
 range(df$BO)
 
-#the data frame
+#Reading data from the last 50 weeks of the time series
 df50weeks <- tail(df, n = 24*7*50)
 
 View(df50weeks)
@@ -18,17 +18,14 @@ tail(df50weeks)
 #aggregating the data so that we have single value for a single day
 meanBO = mean(df50weeks$BO)
 daywise = df50weeks %>% group_by(Date) %>% summarise(mean(BO))
-#exclude the noisy part at the end from 360 onwards
+#Picking 80 days( 66 to train, 14 to validate)
 plot.ts(daywise$`mean(BO)`)
 daywise1 <- daywise[1:80,]
-daywise_ts2 = daywise1[,-1]
-daywise_ts2 <- round(daywise_ts2,4)
-plot = plot.ts(daywise_ts2)
 daywise_ts = ts(round(daywise1$`mean(BO)`,4), frequency = 7)
-
+plot.ts(daywise_ts)
 #partioning the data
-train_data = ts(head(daywise_ts, n=60))
-valid_data = ts(tail(daywise_ts, n=20),start = 61, end = 80)
+train_data = ts(head(daywise_ts, n=66))
+valid_data = ts(tail(daywise_ts, n=14),start = 67, end = 80)
 
 class(valid_data)
 class(train_data)
@@ -40,48 +37,46 @@ dcomp <- stl(daywise_ts, s.window = "periodic")
 plot(dcomp)
 
 adf.test(train_data)
- training_d1 <- diff(train_data, differences = 1)
-adf.test(training_d1)
-plot(training_d1)
+#ADF reveale that data is stationary so no need to difference
 
-dcomp <- stl(training_d1)
-plot(dcomp)
+#training_d1 <- diff(train_data, differences = 2)  # Differencing data 2 times
+#adf.test(training_d1)
 
+#dcomp <- stl(training_d1)
+#plot(dcomp)
 
-
-pacf(training_d1)
+#pacf(training_d1) #PACF On differenced data
 pacf(train_data)
 
-
-acf(training_d1)
+#acf(training_d1) #ACF On differenced data
 acf(train_data)
 
 
-#(5,1,1)
-ts_Mod1 <- arima(train_data, order = c(1,0,0))
+#Based on the plots for ACF and PACF we try the model
+ts_Mod1 <- arima(train_data, order = c(1,0,5))
 print(ts_Mod1)
 
 #valForcast <- forecast()
 length(valid_data)
 
-ts_For1 <- forecast(ts_Mod1, h= 20)
-plot(ts_For1)
+ts_For1 <- forecast(ts_Mod1, h= 14)
+plot(ts_For1, ylim = c(1.1,1.2))
 lines(ts_For1$fitted,, lwd = 1, col = "blue")
 lines(valid_data)
 
-#Model is fitting very well, but unable to predict further.
+plot(ts_For1$residuals)
+mean(ts_For1$residuals)
 
-#(5,1,9)
-ts_Mod2 <- arima(train_data, order = c(1,1,0))
-print(ts_Mod2)
+#ts_Mod2 <- arima(train_data, order = c(1,1,0))
+#print(ts_Mod2)
 
 #valForcast <- forecast()
-length(valid_data)
+#length(valid_data)
 
-ts_For2 <- forecast(ts_Mod2, h= 50)
-plot(ts_For2)
-lines(ts_For2$fitted, lwd = 1, col = "blue")
-lines(valid_data)
+#ts_For2 <- forecast(ts_Mod2, h= 50)
+#plot(ts_For2)
+#lines(ts_For2$fitted, lwd = 1, col = "blue")
+#lines(valid_data)
 
 ts_Mod4<- auto.arima(train_data, trace = TRUE)
 ts_For4 <- forecast(ts_Mod4, h= 20)
@@ -89,16 +84,20 @@ plot(ts_For4)
 lines(ts_For4$fitted, lwd = 1, col = "blue")
 lines(valid_data)
 
+plot(ts_For4$residuals)
+mean(ts_For4$residuals)
+
 accuracy(ts_For4, valid_data)
-accuracy(ts_For2, valid_data)
-accuracy(ts_For, valid_data)
 accuracy(ts_For1, valid_data)
-# Even with Auto arima we get 1,1,0 as the hyperparameter. 
+# With Auto arima we get 0,1,0 as the hyperparameter. 
+# But the results for our model (1,0,5) seem to perform better than Auto ARIMA
 
 
-#predicting for 7 days with arima 1,1,0
-ts_ModFinal <- arima(daywise_ts, order = c(1,1,0))
+#predicting for 7 days with arima 1,0,5
+ts_ModFinal <- arima(daywise_ts, order = c(1,0,5))
 ts_ForFinal <- forecast(ts_ModFinal,h=7)
-plot(ts_ForFinal, xlim = c(48,53), ylim = c(1.1,1.125))
+plot(ts_ForFinal)
 lines(ts_ForFinal$fitted,, lwd = 1, col = "blue")
-lines(valid_data)
+ts_ForFinal
+
+plot(ts_ForFinal$residuals)
