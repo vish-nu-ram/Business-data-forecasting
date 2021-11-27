@@ -27,8 +27,8 @@ plot = plot.ts(daywise_ts2)
 daywise_ts = ts(round(daywise1$`mean(BO)`,4), frequency = 7)
 
 #partioning the data
-train_data = ts(head(daywise_ts, n=50))
-valid_data = ts(tail(daywise_ts, n=20),start = 51, end = 70)
+train_data = ts(head(daywise_ts, n=60))
+valid_data = ts(tail(daywise_ts, n=20),start = 61, end = 80)
 
 class(valid_data)
 class(train_data)
@@ -58,13 +58,13 @@ acf(train_data)
 
 
 #(5,1,1)
-ts_Mod1 <- arima(train_data, order = c(5,1,1))
+ts_Mod1 <- arima(train_data, order = c(1,0,0))
 print(ts_Mod1)
 
 #valForcast <- forecast()
 length(valid_data)
 
-ts_For1 <- forecast(ts_Mod1, h= 50)
+ts_For1 <- forecast(ts_Mod1, h= 20)
 plot(ts_For1)
 lines(ts_For1$fitted,, lwd = 1, col = "blue")
 lines(valid_data)
