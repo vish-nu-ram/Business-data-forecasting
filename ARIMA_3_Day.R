@@ -20,15 +20,15 @@ meanBO = mean(df50weeks$BO)
 daywise = df50weeks %>% group_by(Date) %>% summarise(mean(BO))
 #exclude the noisy part at the end from 360 onwards
 plot.ts(daywise$`mean(BO)`)
-daywise1 <- daywise[1:350,]
+daywise1 <- daywise[1:80,]
 daywise_ts2 = daywise1[,-1]
 daywise_ts2 <- round(daywise_ts2,4)
 plot = plot.ts(daywise_ts2)
 daywise_ts = ts(round(daywise1$`mean(BO)`,4), frequency = 7)
 
 #partioning the data
-train_data = ts(head(daywise_ts, n=300))
-valid_data = ts(tail(daywise_ts, n=50),start = 300, end = 350)
+train_data = ts(head(daywise_ts, n=50))
+valid_data = ts(tail(daywise_ts, n=20),start = 51, end = 70)
 
 class(valid_data)
 class(train_data)
@@ -50,9 +50,11 @@ plot(dcomp)
 # We can use d as 1
 
 pacf(training_d1)
+pacf(train_data)
 # We can use p as 1 ? 5? 8?
 
 acf(training_d1)
+acf(train_data)
 # we can use q as 0? 1? 9? 5? 
 
 #(5,1,1)
@@ -78,11 +80,16 @@ length(valid_data)
 
 ts_For2 <- forecast(ts_Mod2, h= 50)
 plot(ts_For2)
-lines(ts_For2$fitted,, lwd = 1, col = "blue")
+lines(ts_For2$fitted, lwd = 1, col = "blue")
 lines(valid_data)
 
 ts_Mod4<- auto.arima(train_data, trace = TRUE)
-accuracy(ts_For1, valid_data)
+ts_For4 <- forecast(ts_Mod4, h= 20)
+plot(ts_For4)
+lines(ts_For4$fitted, lwd = 1, col = "blue")
+lines(valid_data)
+
+accuracy(ts_For4, valid_data)
 accuracy(ts_For2, valid_data)
 accuracy(ts_For, valid_data)
 accuracy(ts_For1, valid_data)
@@ -92,6 +99,6 @@ accuracy(ts_For1, valid_data)
 #predicting for 7 days with arima 1,1,0
 ts_ModFinal <- arima(daywise_ts, order = c(1,1,0))
 ts_ForFinal <- forecast(ts_ModFinal,h=7)
-plot(ts_ForFinal, xlim = c(40,53), ylim = c(1.1,1.125))
+plot(ts_ForFinal, xlim = c(48,53), ylim = c(1.1,1.125))
 lines(ts_ForFinal$fitted,, lwd = 1, col = "blue")
 lines(valid_data)

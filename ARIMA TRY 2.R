@@ -27,7 +27,7 @@ plot(dcomp)
 ## Test to see if data is stationary
 
 adf.test(ts30weeksBO, k = 24)
-
+class(ts30weeksBO)
 ##differencing
 
 training_d1 <- diff(training, differences = 1)
