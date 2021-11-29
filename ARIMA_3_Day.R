@@ -101,3 +101,32 @@ lines(ts_ForFinal$fitted,, lwd = 1, col = "blue")
 ts_ForFinal
 
 plot(ts_ForFinal$residuals)
+
+
+
+### Selecting optimal p,d,q based on minimum AIC value
+
+final.aic <- Inf
+final.order <- c(0,0,0)
+for (p in 1:4) for (d in 0:1) for (q in 1:4) {
+   current.aic <- AIC(arima(train_data, order=c(p, d, q)))
+   if (current.aic < final.aic) {
+     final.aic <- current.aic
+     final.order <- c(p, d, q)
+     final.arima <- arima(train_data, order=final.order)
+   }
+}
+
+
+final.order
+
+ts_Modf <- arima(train_data, order = c(3,0,4))
+print(ts_Modf)
+
+acf(resid(ts_Modf))
+# No significant peaks for residuals
+
+ts_Forf <- forecast(ts_Modf, h= length(valid_data))
+plot(ts_Forf, ylim = c(1.1,1.2))
+lines(ts_Forf$fitted,, lwd = 1, col = "blue")
+lines(valid_data)
