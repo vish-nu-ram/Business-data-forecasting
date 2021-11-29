@@ -59,7 +59,7 @@ print(ts_Mod1)
 #valForcast <- forecast()
 length(valid_data)
 
-ts_For1 <- forecast(ts_Mod1, h= 14)
+ts_For1 <- forecast(ts_Mod1, h= length(valid_data))
 plot(ts_For1, ylim = c(1.1,1.2))
 lines(ts_For1$fitted,, lwd = 1, col = "blue")
 lines(valid_data)
