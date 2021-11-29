@@ -40,11 +40,13 @@ decompose = decompose(daywise_ts)
 plot(decompose)
 
 #removing the seasonality
-deseason = seasadj(decompose)
-plot(deseason)
+par(mfrow=c(1,2))
+deseason = seasadj(decompose)#
+plot(deseason, sub="Removed seasonality")
 #removing the trend
 ddeseason = diff(deseason)
-plot.ts(ddeseason)
+plot.ts(ddeseason, sub="Removed trend")
+par(mfrow=c(1,1))
 
 #partioning the data
 train_data = head(ddeseason, n=66,start = 0, end = 66)
