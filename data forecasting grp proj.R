@@ -7,7 +7,7 @@ library(forecast)
 library(dplyr)
 
 
-df <- read.csv("/Users/anushree/Downloads/eurusd_hour.csv")
+df <- read.csv("eurusd_hour.csv")
 length(df)
 range(df$BO)
 
@@ -66,14 +66,14 @@ last.ma <- tail(ma.trailing, 1)
 
 # create forecast based on last MA
 ma.trailing.pred <- ts(rep(last.ma, length(valid_data)), start = 11,
-                       end = 12, freq = 7)
+                       end = 13, freq = 7)
 plot(ma.trailing.pred)
 
 
-plot(train_data, ylab = "mean BO", xlab = "Time",bty = "l",xaxt = "n", main = "")
+plot(train_data, ylab = "mean BO", xlab = "Time",bty = "l",xaxt = "n", main = "", xlim=c(0,13))
 axis(1, at = seq(0, 12, 1), labels = format(seq(0, 12, 1)))
-lines(ma.trailing, lwd = 2, col = "blue")
 lines(ma.trailing.pred, lwd = 2, col = "red", lty = 2)
+lines(ma.trailing, lwd = 2, col = "blue")
 lines(valid_data, lwd = 2)
 
 
