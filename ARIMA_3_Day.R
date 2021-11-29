@@ -106,6 +106,8 @@ plot(ts_ForFinal$residuals)
 
 ### Selecting optimal p,d,q based on minimum AIC value
 
+##### REF :https://www.quantstart.com/articles/Autoregressive-Integrated-Moving-Average-ARIMA-p-d-q-Models-for-Time-Series-Analysis/
+
 final.aic <- Inf
 final.order <- c(0,0,0)
 for (p in 1:4) for (d in 0:1) for (q in 1:4) {
@@ -130,3 +132,5 @@ ts_Forf <- forecast(ts_Modf, h= length(valid_data))
 plot(ts_Forf, ylim = c(1.1,1.2))
 lines(ts_Forf$fitted,, lwd = 1, col = "blue")
 lines(valid_data)
+
+accuracy(ts_Forf, valid_data)
