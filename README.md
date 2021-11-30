@@ -1,6 +1,8 @@
 # Business-data-forecasting
 Group project
 
+Data : EUR-USD Coversion rates s
+
 Models used:
 - AR
 - MA
