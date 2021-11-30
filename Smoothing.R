@@ -139,11 +139,11 @@ exp_model_MNM <- ets(ts(train_data, start=0, frequency = 7), model ="MNM")
 # create predictions
 exp_pred_MNM <- forecast(exp_model_MNN, h=20, level = 0)
 # plot the series
-plot(exp_model_MNM,  ylab = "Bid Price at beginning of hour", xlab = "Time", ylim=c(1.12,1.155),
+plot(exp_pred_MNM,  ylab = "Bid Price at beginning of hour", xlab = "Time", ylim=c(1.12,1.155),
      bty = "l", xaxt = "n", main = "Holt-Winter's Exponential Smoothing\nmultiple error, no trend and multiple seasonality", flty = )
-lines(exp_model_MNM$fitted, lwd = 1, col = "blue")
+lines(exp_pred_MNM$fitted, lwd = 1, col = "blue")
 lines(valid_data)
-accuracy(exp_model_MNM, valid_data)
+accuracy(exp_pred_MNM, valid_data)
 
 # run Holt-Winters exponential smoothing
 # use ets() with option model = "MNN" to fit Holt-Winter's exponential smoothing
@@ -152,11 +152,11 @@ exp_model_MNA <- ets(ts(train_data, start=0, frequency = 7), model ="MNA")
 # create predictions
 exp_pred_MNA <- forecast(exp_model_MNN, h=20, level = 0)
 # plot the series
-plot(exp_model_MNM,  ylab = "Bid Price at beginning of hour", xlab = "Time", ylim=c(1.12,1.155),
+plot(exp_pred_MNA,  ylab = "Bid Price at beginning of hour", xlab = "Time", ylim=c(1.12,1.155),
      bty = "l", xaxt = "n", main = "Holt-Winter's Exponential Smoothing\nmultiple error, no trend and additive seasonality", flty = )
-lines(exp_model_MNM$fitted, lwd = 1, col = "blue")
+lines(exp_pred_MNA$fitted, lwd = 1, col = "blue")
 lines(valid_data)
-accuracy(exp_model_MNA, valid_data)
+accuracy(exp_pred_MNA, valid_data)
 
 
 # run Holt-Winters exponential smoothing
@@ -166,8 +166,8 @@ exp_model_ZZZ <- ets(ts(train_data, start=0, frequency = 7), model ="ZZZ")
 # create predictions
 exp_pred_ZZZ <- forecast(exp_model_ZZZ, h=20, level = 0)
 # plot the series
-plot(exp_model_ZZZ,  ylab = "Bid Price at beginning of hour", xlab = "Time", ylim=c(1.12,1.155),
+plot(exp_pred_ZZZ,  ylab = "Bid Price at beginning of hour", xlab = "Time", ylim=c(1.12,1.155),
      bty = "l", xaxt = "n", main = "Holt-Winter's Exponential Smoothing\nmultiple error, no trend and additive seasonality", flty = )
-lines(exp_model_ZZZ$fitted, lwd = 1, col = "blue")
+lines(exp_pred_ZZZ$fitted, lwd = 1, col = "blue")
 lines(valid_data)
-accuracy(exp_model_ZZZ, valid_data)
+accuracy(exp_pred_ZZZ, valid_data)
