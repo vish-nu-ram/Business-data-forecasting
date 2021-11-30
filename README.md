@@ -7,3 +7,8 @@ Models used:
 - ARIMA
 - Exponential smoothing
 
+Group Members:
+- Marie
+- Anushree
+- Sarath
+- Vishnu
