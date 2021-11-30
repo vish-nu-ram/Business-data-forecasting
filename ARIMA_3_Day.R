@@ -21,7 +21,7 @@ daywise = df50weeks %>% group_by(Date) %>% summarise(mean(BO))
 #Picking 80 days( 66 to train, 14 to validate)
 plot.ts(daywise$`mean(BO)`)
 daywise1 <- daywise[1:80,]
-daywise_ts = ts(round(daywise1$`mean(BO)`,4), frequency = 7)
+daywise_ts = ts(round(daywise1$`mean(BO)`,4), frequency=7)
 plot.ts(daywise_ts)
 #partioning the data
 train_data = ts(head(daywise_ts, n=66))
@@ -94,13 +94,13 @@ accuracy(ts_For1, valid_data)
 
 
 #predicting for 7 days with arima 1,0,5
-ts_ModFinal <- arima(daywise_ts, order = c(1,0,5))
-ts_ForFinal <- forecast(ts_ModFinal,h=7)
-plot(ts_ForFinal)
-lines(ts_ForFinal$fitted,, lwd = 1, col = "blue")
-ts_ForFinal
+#ts_ModFinal <- arima(daywise_ts, order = c(1,0,5))
+#ts_ForFinal <- forecast(ts_ModFinal,h=7)
+#plot(ts_ForFinal)
+#lines(ts_ForFinal$fitted,, lwd = 1, col = "blue")
+#ts_ForFinal
 
-plot(ts_ForFinal$residuals)
+#plot(ts_ForFinal$residuals)
 
 
 
@@ -130,7 +130,17 @@ acf(resid(ts_Modf))
 
 ts_Forf <- forecast(ts_Modf, h= length(valid_data))
 plot(ts_Forf, ylim = c(1.1,1.2))
-lines(ts_Forf$fitted,, lwd = 1, col = "blue")
+lines(ts_Forf$fitted, lwd = 1, col = "blue")
 lines(valid_data)
 
 accuracy(ts_Forf, valid_data)
+
+#predicting for 7 days with arima 3,0,4
+ts_ModFinal2 <- arima(daywise_ts, order = c(3,0,4))
+ts_ForFinal2 <- forecast(ts_ModFinal2, h=7)
+plot(ts_ForFinal2$mean)
+lines(ts_ForFinal2$fitted, lwd = 1, col = "blue")
+ts_ForFinal
+
+plot(ts_ForFinal$residuals)
+
